@@ -1,0 +1,121 @@
+
+#How to perform Independent t test####
+
+#Import dataset as mydata1
+# library(readxl)
+# mydata1 <- read_excel("W3. Dataset for One-sample t.xlsx")
+# View(mydata1) 
+# can use import function as well
+
+#How to find mean and standard deviation
+mean(mydata1$Weight) # mean of the whole column
+sd(mydata1$Weight)
+
+#Performing one-sample t test
+t.test(mydata1$Weight,mu=100)
+
+
+#########################################################
+
+#Independent t test (Equal variance) ####
+#Import dataset as mydata2
+#How to find mean and standard deviation by groups
+library(readxl)
+mydata2 <- read_excel("W4. Dataset for Independent t_Equal variance.xlsx")
+tapply(mydata2$RER,mydata2$Group,mean) #want to know mean of two different groups
+tapply(mydata2$RER,mydata2$Group,sd) #INDEX is categorical data, FUN (function)
+                                    # is sd or mean etc; X is quantitative variable
+
+#Levene's variance test (to check whether to use equal v or unequal v)
+#require car package
+install.packages("car")
+library(car)
+leveneTest(mydata2$RER,mydata2$Group,center=mean)
+# Levene's Test for Homogeneity of Variance (center = mean)
+# Df.        F value         Pr(>F)
+# group  1   0.527           0.4807 (equal variance coz > 0.05)
+# 13       
+# if Pr (probability) is < 0.052 -> unequal variance
+# if Pr is > 0.052 -> equal variance
+
+#Performing independent t test
+t.test(mydata2$RER~mydata2$Group,var.equal=TRUE)
+#var.equal = TRUE (equal variance is used), FALSE (unequal variance)
+
+
+#########################################################
+
+#Independent t test (Unequal variance) ####
+#Import dataset as mydata3
+#How to find mean and standard deviation by groups
+mydata3 <- read_excel("W4. Dataset for Independent t_Unequl variance.xlsx")
+tapply(mydata3$Cholesterol,mydata3$Program,mean) 
+tapply(mydata3$Cholesterol,mydata3$Program,sd) 
+
+#Levene's variance test
+#require car package
+leveneTest(mydata3$Cholesterol,mydata3$Program,center=mean)
+
+
+#Performing independent t test
+t.test(mydata3$Cholesterol~mydata3$Program,var.equal=FALSE)
+
+
+
+#########################################################
+
+#Performing paired sample t test ####
+#Import dataset as mydata4
+# Import directly to environment or use read_excel
+# mydata4 <- read_excel("W4. Dataset for Paired t.xlsx")
+
+#How to find mean and standard deviation (just for data presentation)
+mean(mydata4$Sales_after)
+mean(mydata4$Sales_before)
+
+sd(mydata4$Sales_after)
+sd(mydata4$Sales_before)
+
+#How to peform paired sample t test
+t.test(mydata4$Sales_after,mydata4$Sales_before,paired=TRUE)
+                  # after - before 
+# Check W3. pdf for step-by-step calculations by hand (finding d-bar)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
